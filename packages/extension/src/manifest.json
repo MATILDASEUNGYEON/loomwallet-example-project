@@ -1,0 +1,16 @@
+{
+  "manifest_version": 3,
+  "name": "Native Messaging Test",
+  "version": "2.0",
+  "description": "Integrate project.",
+  "permissions": [
+    "nativeMessaging"
+  ],
+  "host_permissions": [
+    "http://*/*",
+    "https://*/*"
+  ],
+  "action": {
+    "default_popup": "popup/popup.html"
+  }
+}

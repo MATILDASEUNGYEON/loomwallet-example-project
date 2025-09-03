@@ -1,0 +1,9 @@
+# 모든 node_modules 폴더 무시
+**/node_modules/
+
+# 로그 파일도 무시
+**/*.log
+
+# 빌드 산출물
+packages/proxy-cli/build/
+
