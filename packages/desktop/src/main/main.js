@@ -1,5 +1,6 @@
 // main.js
 const { app, BrowserWindow,ipcMain } = require('electron');
+const {exec} = require('child_process');
 const net = require('net');
 const path = require('path');
 const fs = require('fs');
@@ -11,6 +12,32 @@ const log = (m) => { console.log(m); fs.appendFileSync(LOG, `[${new Date().toISO
 let win = null;
 const pendingToRenderer = [];
 let lastSocket=null;
+
+ipcMain.on('register-native-host', (event, extId) => {
+  if (!extId) {
+    event.sender.send('registration-status', { success: false, message: '확장 프로그램 ID가 필요합니다.' });
+    return;
+  }
+
+  // 앱의 설치 경로를 얻습니다.
+  const appPath = app.getAppPath();
+  const scriptPath = path.join(appPath, 'resources', 'install-native-host.ps1');
+
+  // PowerShell 스크립트 실행 명령어
+  const command = `powershell -NoProfile -ExecutionPolicy Bypass -File "${scriptPath}" -ExtensionId "${extId}" -InstallerDir "${path.join(appPath, '..')}"`;
+
+  // PowerShell 스크립트 실행
+  exec(command, (error, stdout, stderr) => {
+    if (error) {
+      console.error(`exec error: ${error}`);
+      event.sender.send('registration-status', { success: false, message: `등록 실패: ${stderr}` });
+      return;
+    }
+
+    // 성공 메시지를 렌더러 프로세스로 보냅니다.
+    event.sender.send('registration-status', { success: true, message: `등록 완료: ${stdout}` });
+  });
+});
 
 function safeSendToRenderer(msg) {
   if (!win || win.isDestroyed() || !win.webContents || win.webContents.isLoading()) {

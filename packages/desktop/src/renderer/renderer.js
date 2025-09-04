@@ -1,4 +1,5 @@
 // renderer.js
+const {ipcRenderer} = require('electron');
 const log = document.getElementById('log');
 function append(type, data) {
   const p = document.createElement('pre');
@@ -33,3 +34,17 @@ document.getElementById('send').onclick = async () => {
     append('to-proxy:error', String(e.message || e));
   }
 };
+document.getElementById('register-btn').addEventListener('click', () => {
+  const extId = document.getElementById('extId-input').value;
+  ipcRenderer.send('register-native-host', extId);
+});
+ipcRenderer.on('registration-status', (event, response) => {
+    const statusEl = document.getElementById('status-message');
+    statusEl.textContent = response.message;
+    if (response.success) {
+      statusEl.style.color = 'green';
+    } else {
+      statusEl.style.color = 'red';
+    }
+  });
+
