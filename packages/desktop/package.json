@@ -1,18 +1,41 @@
 {
-  "name": "desktop",
+  "name": "your-electron-app",
   "version": "1.0.0",
-  "description": "",
+  "description": "An Electron app for loomwallet.",
   "main": "src/main/main.js",
   "scripts": {
     "start": "electron .",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "build": "electron-builder" 
+    "build-cli": "powershell -ExecutionPolicy Bypass -File ../proxy-cli/scripts/build-proxy-cli.ps1",
+    "build-app": "electron-builder --win",
+    "build": "npm run build-cli && npm run build-app"
   },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "type": "commonjs",
-  "dependencies": {
-    "electron": "^37.4.0"
+  "devDependencies": {
+    "electron": "^38.0.0",
+    "electron-builder": "^26.0.12"
+  },
+  "build": {
+    "appId": "com.lsware.totalproject",
+    "productName": "LoomWallet",
+    "files": [
+      "src/**/*",
+      "dist/**/*",
+      "node_modules/**/*",
+      "main.js",
+      "package.json"
+    ],
+    "extraFiles": [
+      "../proxy-cli/scripts/install-native-host.ps1",
+      "../proxy-cli/build/proxy-cli.exe"
+    ],
+    "win": {
+      "target": "nsis",
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true,
+      "include": "build/installer.nsh"
+    }
   }
 }

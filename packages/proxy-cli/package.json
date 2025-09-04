@@ -4,11 +4,10 @@
   "description": "",
   "bin":"src/host.js",
   "scripts": {
-    "clean": "powershell -ExecutionPolicy Bypass -File ./scripts/clean-host.ps1",
-    "build": "pkg ./src/host.js -t node18-win-x64 -o ./build/proxy-cli.exe",
-    "reg": "powershell -ExecutionPolicy Bypass -File ./manifests/windows/register-host.ps1",
-    "unreg": "powershell -ExecutionPolicy Bypass -File ./manifests/windows/unregister-host.ps1",
-    "rebuild:reg": "npm run clean && npm run build && npm run reg"
+    "build": "powershell -ExecutionPolicy Bypass -File ./scripts/build-proxy-cli.ps1",
+    "install-host": "powershell -ExecutionPolicy Bypass -File ./scripts/install-native-host.ps1",
+    "uninstall-host": "powershell -ExecutionPolicy Bypass -File ./scripts/uninstall-native-host.ps1",
+    "reinstall-host": "npm run uninstall-host && npm run install-host"
   },
   "keywords": [],
   "author": "",

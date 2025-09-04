@@ -1,9 +1,15 @@
+﻿
 {
   "name": "com.lsware.totalproject_host",
-  "description": "Test total project",
+  "description": "LSware Total Project Native Host",
   "path": "D:\\loomwallet-example-final\\packages\\proxy-cli\\build\\proxy-cli.exe",
   "type": "stdio",
   "allowed_origins": [
     "chrome-extension://opnoaogmpliiaoeemmhebpbnkecfjfhk/"
   ]
 }
+
+
+
+
+

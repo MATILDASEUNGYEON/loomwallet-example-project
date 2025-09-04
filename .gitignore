@@ -6,4 +6,4 @@
 
 # 빌드 산출물
 packages/proxy-cli/build/
-
+packages/desktop/dist/
