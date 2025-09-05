@@ -24,8 +24,9 @@
       "package.json"
     ],
     "extraFiles": [
-      "../proxy-cli/scripts/install-native-host.ps1",
-      "../proxy-cli/build/proxy-cli.exe"
+      { "from": "../proxy-cli/build/proxy-cli.exe", "to": "resources/proxy-cli.exe" },
+      { "from": "../proxy-cli/manifests/windows",   "to": "resources/manifests/windows" },
+      { "from": "../proxy-cli/scripts/install-native-host.ps1", "to": "resources/install-native-host.ps1" }
     ],
     "win": {
       "target": "nsis",

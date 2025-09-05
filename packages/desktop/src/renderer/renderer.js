@@ -32,14 +32,11 @@ document.getElementById('send').onclick = async () => {
     }
 };
 
-// 네이티브 호스트 등록 처리 (수정된 코드)
 document.getElementById('register-btn').addEventListener('click', () => {
     const extId = document.getElementById('extId-input').value;
-    // 노출된 API를 통해 메인 프로세스로 메시지 전송
     window.electronAPI.registerNativeHost(extId);
 });
 
-// 노출된 API를 통해 상태 업데이트 수신
 window.electronAPI.onRegistrationStatus((response) => {
     const statusEl = document.getElementById('status-message');
     statusEl.textContent = response.message;

@@ -19,22 +19,18 @@ ipcMain.on('register-native-host', (event, extId) => {
     return;
   }
 
-  // 앱의 설치 경로를 얻습니다.
-  const appPath = app.getAppPath();
-  const scriptPath = path.join(appPath, 'resources', 'install-native-host.ps1');
+  const appDir     = path.dirname(process.execPath);          // 설치 루트 (…\LoomWallet\)
+  const scriptPath = path.join(appDir, 'resources', 'install-native-host.ps1');
+  const installerDir = path.join(appDir, 'resources');        // PS1이 기대하는 InstallerDir
 
-  // PowerShell 스크립트 실행 명령어
-  const command = `powershell -NoProfile -ExecutionPolicy Bypass -File "${scriptPath}" -ExtensionId "${extId}" -InstallerDir "${path.join(appPath, '..')}"`;
+  const command = `powershell -NoProfile -ExecutionPolicy Bypass -File "${scriptPath}" -ExtensionId "${extId}" -InstallerDir "${installerDir}"`;
 
-  // PowerShell 스크립트 실행
   exec(command, (error, stdout, stderr) => {
     if (error) {
-      console.error(`exec error: ${error}`);
-      event.sender.send('registration-status', { success: false, message: `등록 실패: ${stderr}` });
+      console.error('exec error:', error, stderr);
+      event.sender.send('registration-status', { success: false, message: `등록 실패: ${stderr || error.message}` });
       return;
     }
-
-    // 성공 메시지를 렌더러 프로세스로 보냅니다.
     event.sender.send('registration-status', { success: true, message: `등록 완료: ${stdout}` });
   });
 });
