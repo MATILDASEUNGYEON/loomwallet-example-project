@@ -5,11 +5,6 @@
   "path": "D:\\loomwallet-example-final\\packages\\proxy-cli\\build\\proxy-cli.exe",
   "type": "stdio",
   "allowed_origins": [
-    "chrome-extension://opnoaogmpliiaoeemmhebpbnkecfjfhk/"
+    "chrome-extension://__EXT_ID__/"
   ]
 }
-
-
-
-
-
